@@ -11,6 +11,7 @@ defaults
   option redispatch
   option forwardfor
   option httplog
+  option http-server-close
   retries 3
 
 {{with $config := key "<%= @config_key %>" | parseJSON}}
