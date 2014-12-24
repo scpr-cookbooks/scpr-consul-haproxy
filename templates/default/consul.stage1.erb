@@ -12,6 +12,10 @@ defaults
   option forwardfor
   option httplog
   option http-server-close
+  maxconn <%= node.scpr_consul_haproxy.max_sessions %>
+  timeout client <%= node.scpr_consul_haproxy.timeout_client %>
+  timeout server <%= node.scpr_consul_haproxy.timeout_server %>
+  timeout connect <%= node.scpr_consul_haproxy.timeout_connect %>
   retries 3
 
 {{with $config := key "<%= @config_key %>" | parseJSON}}
