@@ -40,7 +40,7 @@ admin_ip = node.network.interfaces[ node.scpr_consul_haproxy.admin_interface ].a
 
 template "/etc/haproxy/haproxy.consul" do
   action        :create
-  template      "streammachine.erb"
+  source        "streammachine.erb"
   variables({
     config_key: node.scpr_consul_haproxy.config_key,
     admin_ip:   admin_ip,

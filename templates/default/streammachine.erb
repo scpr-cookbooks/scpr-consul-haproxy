@@ -29,7 +29,6 @@ frontend sources-in
 backend listeners
   balance leastconn{{range service "streammachine_<%= @config_key %>_slave"}}
   server {{.Node}} {{.Address}}:8020{{end}}
-{{end}}
 
 backend sources{{with $s := service "streammachine_<%= @config_key %>_master"}}{{with index $s 0}}
   balance leastconn
