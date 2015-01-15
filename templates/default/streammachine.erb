@@ -1,0 +1,41 @@
+global
+  log 127.0.0.1 local0 notice
+  maxconn 4096
+  user haproxy
+  group haproxy
+
+defaults
+  log global
+  mode http
+  option dontlognull
+  option redispatch
+  option forwardfor
+  option httplog
+  option http-server-close
+  maxconn <%= node.scpr_consul_haproxy.max_sessions %>
+  timeout client <%= node.scpr_consul_haproxy.timeout_client %>
+  timeout server <%= node.scpr_consul_haproxy.timeout_server %>
+  timeout connect <%= node.scpr_consul_haproxy.timeout_connect %>
+  retries 3
+
+frontend listeners-in
+  bind *:80
+  use_backend listeners
+
+frontend sources-in
+  bind *:8022
+  use_backend sources
+
+backend listeners
+  balance leastconn{{range service "streammachine_<%= @config_key %>_slave"}}
+  server {{.Node}} {{.Address}}:8020{{end}}
+{{end}}
+
+backend sources{{with $s := service "streammachine_<%= @config_key %>_master"}}{{with index $s 0}}
+  balance leastconn
+  server {{.Node}} {{.Address}}:8021{{end}}{{end}}
+
+listen stats <%= @admin_ip %>:1944
+  mode http
+  stats enable
+  stats uri /
