@@ -11,6 +11,11 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[apt]
       - recipe[scpr-consul-haproxy::default]
     attributes:
+  - name: haproxy15
+    run_list:
+      - recipe[scpr-consul-haproxy::default]
+    attributes:
+      scpr_consul_haproxy:
+        use_1_5: true
