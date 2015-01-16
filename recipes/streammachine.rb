@@ -4,32 +4,7 @@
 #
 # Copyright (c) 2014 Southern California Public Radio, All Rights Reserved.
 
-# -- Install HAProxy -- #
-
-include_recipe "haproxy::install_package"
-
-service "haproxy" do
-  action :nothing
-  supports [:start,:stop,:restart,:reload,:status]
-end
-
-# write the defaults file enabling haproxy
-cookbook_file "/etc/default/haproxy" do
-  cookbook  "haproxy"
-  source    "haproxy-default"
-  owner     "root"
-  group     "root"
-  mode      00644
-  notifies  :restart, "service[haproxy]"
-end
-
-# -- Install / Configure Consul -- #
-
-include_recipe "scpr-consul"
-
-# -- Install consul template -- #
-
-include_recipe "consul-template"
+include_recipe "scpr-consul-haproxy::_install"
 
 # -- Write out our consul_template template -- #
 
