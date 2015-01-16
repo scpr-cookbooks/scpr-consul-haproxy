@@ -7,15 +7,16 @@ global
 defaults
   log global
   mode http
+  option http-tunnel
   option dontlognull
   option redispatch
   option forwardfor
   option httplog
-  option http-server-close
   maxconn <%= node.scpr_consul_haproxy.max_sessions %>
   timeout client <%= node.scpr_consul_haproxy.timeout_client %>
   timeout server <%= node.scpr_consul_haproxy.timeout_server %>
   timeout connect <%= node.scpr_consul_haproxy.timeout_connect %>
+  timeout tunnel 1m
   retries 3
 
 frontend listeners-in
@@ -32,6 +33,8 @@ backend listeners
 
 backend sources{{with $s := service "streammachine_<%= @config_key %>_master"}}{{with index $s 0}}
   balance leastconn
+  retries 0
+  no option redispatch
   server {{.Node}} {{.Address}}:8021{{end}}{{end}}
 
 listen stats <%= @admin_ip %>:1944

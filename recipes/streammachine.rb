@@ -20,6 +20,7 @@ template "/etc/haproxy/haproxy.consul" do
     config_key: node.scpr_consul_haproxy.config_key,
     admin_ip:   admin_ip,
   })
+  notifies :reload, "service[consul-template]"
 end
 
 # Set up our consul template config
