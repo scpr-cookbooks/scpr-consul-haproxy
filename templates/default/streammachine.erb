@@ -25,6 +25,7 @@ frontend listeners-in
 
 frontend sources-in
   bind *:8021
+  mode tcp
   default_backend sources
 
 backend listeners
@@ -33,6 +34,7 @@ backend listeners
 
 backend sources{{with $s := service "streammachine_<%= @config_key %>_master"}}{{with index $s 0}}
   balance leastconn
+  mode tcp
   retries 0
   no option redispatch
   server {{.Node}} {{.Address}}:8021{{end}}{{end}}
