@@ -7,6 +7,5 @@ long_description 'Installs/Configures scpr-consul-haproxy'
 version          '0.2.3'
 
 depends 'apt'
-#depends 'haproxy'
 depends 'scpr-consul'
 depends 'consul-template'
