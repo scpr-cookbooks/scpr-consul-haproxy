@@ -28,10 +28,9 @@ frontend http-in
 
 {{range $config.services}}
 backend {{.service}}
-  balance leastconn{{printf "{{range service \"%s\"}}" .service }}
-  server {{printf "{{.Node}}"}} {{printf "{{.Address}}"}}:80{{printf "{{end}}"}}
-{{end}}
-{{end}}
+  balance leastconn{{range service .service}}
+  server {{.Node}} {{.Address}}:80{{end}}
+{{end}}{{end}}
 
 listen stats <%= @admin_ip %>:1944
   mode http

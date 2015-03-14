@@ -14,9 +14,9 @@ default.scpr_consul_haproxy.use_1_5         = false
 
 include_attribute "consul-template"
 
-default.consul_template.version = "0.3.1"
+default.consul_template.version = "0.7.0"
 default.consul_template.checksums = {
-  'consul-template_0.3.1_linux_amd64' => "a6cd9ac0880fc3a380b6fe50491797c38b87ec79803d5654d16c40853c6ccbf2"
+  'consul-template_0.7.0_linux_amd64' => '7b8fb97caef72f9e67bbb9069042b8e01f7efed3acd2a32f560a8fe60146d874',
 }
 
 default.consul_template.config = {

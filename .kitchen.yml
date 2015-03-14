@@ -4,6 +4,7 @@ driver:
 
 provisioner:
   name: chef_zero
+  data_path: test/shared
 
 platforms:
   - name: ubuntu-12.04
@@ -11,11 +12,17 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[scpr-consul-haproxy-test]
       - recipe[scpr-consul-haproxy::default]
     attributes:
+      consul:
+        service_mode: bootstrap
   - name: haproxy15
     run_list:
+      - recipe[scpr-consul-haproxy-test]
       - recipe[scpr-consul-haproxy::default]
     attributes:
+      consul:
+        service_mode: bootstrap
       scpr_consul_haproxy:
         use_1_5: true
