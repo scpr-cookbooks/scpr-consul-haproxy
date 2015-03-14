@@ -6,6 +6,7 @@ default.scpr_consul_haproxy.timeout_connect = "10s"
 default.scpr_consul_haproxy.timeout_server  = "30s"
 
 default.scpr_consul_haproxy.use_1_5         = false
+default.scpr_consul_haproxy.template        = "haproxy.consul.erb"
 
 #----------
 

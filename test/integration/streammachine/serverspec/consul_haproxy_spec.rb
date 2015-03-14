@@ -6,11 +6,9 @@ describe "consul-haproxy" do
   end
 
   describe file("/etc/haproxy/haproxy.cfg") do
-    # this service comes from the kv json we registered
-    its(:content) { should include("use_backend scprv4_production_web") }
-
-    # this backend comes from the service we registered
-    its(:content) { should include("server haproxy15-ubuntu-1204 127.0.0.1:80") }
+    # streammachine has two frontend services
+    its(:content) { should include("frontend listeners-in") }
+    its(:content) { should include("frontend sources-in") }
   end
 
   describe service("haproxy") do
@@ -25,7 +23,7 @@ describe "consul-haproxy" do
     it { should be_listening.with("tcp") }
   end
 
-  # Default recipe installs HAProxy 1.4
+  # Streammeachine should use HAProxy 1.5
   describe command("haproxy -v") do
     its(:stdout) { should include("HA-Proxy version 1.5") }
   end

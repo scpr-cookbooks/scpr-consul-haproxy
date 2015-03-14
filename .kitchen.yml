@@ -26,3 +26,10 @@ suites:
         service_mode: bootstrap
       scpr_consul_haproxy:
         use_1_5: true
+  - name: streammachine
+    run_list:
+      - recipe[scpr-consul-haproxy-test]
+      - recipe[scpr-consul-haproxy::streammachine]
+    attributes:
+      consul:
+        service_mode: bootstrap

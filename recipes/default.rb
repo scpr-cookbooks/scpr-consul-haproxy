@@ -16,11 +16,13 @@ admin_ip = node.network.interfaces[ node.scpr_consul_haproxy.admin_interface ].a
 # TODO: Need to deprovision as well
 
 template "/etc/haproxy/haproxy.consul" do
-  action :create
+  action    :create
+  source    node.scpr_consul_haproxy.template
   variables({
     config_key: node.scpr_consul_haproxy.config_key,
     admin_ip:   admin_ip,
   })
+  notifies  :reload, "service[consul-template]"
 end
 
 # Set up our consul template config
