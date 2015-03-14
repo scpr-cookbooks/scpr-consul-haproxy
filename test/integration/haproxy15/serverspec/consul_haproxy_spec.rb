@@ -27,6 +27,6 @@ describe "consul-haproxy" do
 
   # Default recipe installs HAProxy 1.4
   describe command("haproxy -v") do
-    its(:stdout) { should include("HA-Proxy version 1.4") }
+    its(:stdout) { should include("HA-Proxy version 1.5") }
   end
 end
