@@ -15,7 +15,7 @@ end
 
 package "haproxy" do
   action  :install
-  version node.scpr_consul_haproxy.use_1_5 ? "1.5.11-1ppa1~precise" : "1.4.18-0ubuntu1.2"
+  version node.scpr_consul_haproxy.use_1_5 ? "1.5.12-1ppa1~precise" : "1.4.18-0ubuntu1.2"
   options '-o Dpkg::Options::="--force-confold"'
 end
 
