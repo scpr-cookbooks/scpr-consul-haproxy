@@ -4,7 +4,7 @@ maintainer_email 'erichardson@scpr.org'
 license          'all_rights'
 description      'Installs/Configures scpr-consul-haproxy'
 long_description 'Installs/Configures scpr-consul-haproxy'
-version          '0.3.3'
+version          '0.4.0'
 
 depends 'apt'
 depends 'scpr-consul'

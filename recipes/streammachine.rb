@@ -6,6 +6,5 @@
 
 # streammachine recipe is now just default with a different template
 node.set['scpr_consul_haproxy']['template'] = "streammachine.erb"
-node.set['scpr_consul_haproxy']['use_1_5']  = true
 
 include_recipe "scpr-consul-haproxy"
