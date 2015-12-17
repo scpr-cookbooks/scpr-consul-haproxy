@@ -29,10 +29,10 @@ frontend sources-in
   default_backend sources
 
 backend listeners
-  balance leastconn{{range service "streammachine_<%= @config_key %>_slave"}}
+  balance leastconn{{range service "streammachine_<%= @config_key %>_<%= node.scpr_consul_haproxy.streammachine_svc_listener %>"}}
   server {{.Node}} {{.Address}}:8020{{end}}
 
-backend sources{{with $s := service "streammachine_<%= @config_key %>_master"}}{{with index $s 0}}
+backend sources{{with $s := service "streammachine_<%= @config_key %>_<%= node.scpr_consul_haproxy.streammachine_svc_source %>"}}{{with index $s 0}}
   balance leastconn
   mode tcp
   retries 0

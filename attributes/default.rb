@@ -7,6 +7,9 @@ default.scpr_consul_haproxy.timeout_server  = "30s"
 
 default.scpr_consul_haproxy.template        = "haproxy.consul.erb"
 
+default.scpr_consul_haproxy.streammachine_svc_listener = "slave"
+default.scpr_consul_haproxy.streammachine_svc_source = "master"
+
 #----------
 
 
