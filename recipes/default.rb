@@ -18,11 +18,13 @@ admin_ip = node.network.interfaces[ node.scpr_consul_haproxy.admin_interface ].a
 template "/etc/haproxy/haproxy.consul" do
   action    :create
   source    node.scpr_consul_haproxy.template
+  cookbook  node.scpr_consul_haproxy.template_cookbook
   variables({
     config_key: node.scpr_consul_haproxy.config_key,
     admin_ip:   admin_ip,
   })
   notifies  :reload, "service[consul-template]"
+  notifies  :reload, "service[haproxy]"
 end
 
 # Set up our consul template config
