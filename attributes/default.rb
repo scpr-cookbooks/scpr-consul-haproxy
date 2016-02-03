@@ -11,20 +11,3 @@ default.scpr_consul_haproxy.template_cookbook = "scpr-consul-haproxy"
 default.scpr_consul_haproxy.streammachine_svc_listener = "slave"
 default.scpr_consul_haproxy.streammachine_svc_source = "master"
 
-#----------
-
-
-#----------
-
-include_attribute "consul-template"
-
-default.consul_template.base_url = "https://s3-us-west-2.amazonaws.com/scpr-binaries/consul-template/"
-default.consul_template.version = "0.12.2"
-default.consul_template.checksums = {
-  'consul-template_0.7.0_linux_amd64' => '7b8fb97caef72f9e67bbb9069042b8e01f7efed3acd2a32f560a8fe60146d874',
-  'consul-template_0.12.2_linux_amd64' => '525b7ea6a2912c67ab9fcebb603b60d9ab69ed572d6a753803f8c46badec10da',
-}
-
-default.consul_template.config = {
-  consul: "localhost:8500",
-}

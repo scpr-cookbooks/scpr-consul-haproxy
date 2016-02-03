@@ -24,7 +24,4 @@ end
 # -- Install / Configure Consul -- #
 
 include_recipe "scpr-consul"
-
-# -- Install consul template -- #
-
-include_recipe "consul-template"
+include_recipe "scpr-consul::consul-template"
