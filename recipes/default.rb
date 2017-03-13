@@ -13,6 +13,19 @@ admin_ip = node.network.interfaces[ node.scpr_consul_haproxy.admin_interface ].a
   v.family == "inet"
 }.first
 
+# Install SSL certificates
+if certs = node.ssl.databag_items rescue nil
+  certs.each do |cert_databag_item|
+    if cert = data_bag_item(node.ssl.databag,cert_databag_item) rescue nil
+      file "#{node.ssl.path}/#{cert_databag_item}.pem" do
+        action  :create
+        mode    0644
+        content [cert['cert'],cert['chain'],cert['key']].join("\n")
+      end
+    end
+  end
+end
+
 # TODO: Need to deprovision as well
 
 template "/etc/haproxy/haproxy.consul" do
