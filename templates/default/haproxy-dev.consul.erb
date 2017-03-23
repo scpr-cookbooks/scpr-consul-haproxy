@@ -1,0 +1,43 @@
+global
+  log 127.0.0.1 local0 notice
+  maxconn 8192
+  user haproxy
+  group haproxy
+  ssl-default-bind-options no-sslv3
+  ssl-default-bind-ciphers ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS
+
+defaults
+  log global
+  mode http
+  option dontlognull
+  option redispatch
+  option forwardfor
+  option httplog
+  option http-server-close
+  maxconn <%= node.scpr_consul_haproxy.max_sessions %>
+  timeout client <%= node.scpr_consul_haproxy.timeout_client %>
+  timeout server <%= node.scpr_consul_haproxy.timeout_server %>
+  timeout connect <%= node.scpr_consul_haproxy.timeout_connect %>
+  retries 3
+
+{{with $config := key "<%= @config_key %>" | parseJSON}}
+frontend http-in
+  bind *:80
+  <% if node.ssl %>
+  bind *:443 ssl <%= node.ssl.certificates.map{|cert_name| "crt #{node.ssl.path}/#{cert_name}.pem"}.join(" ") %>
+  <% end %>
+  {{range $config.services}}
+  acl sv_{{.service}} hdr(host) -i {{.hostname}}{{end}}
+  {{range $config.services}}
+  use_backend {{.service}} if sv_{{.service}}{{end}}
+
+{{range $config.services}}
+backend {{.service}}
+  balance leastconn{{range service .service}}
+  server {{.Node}} {{.Address}}:80{{end}}
+{{end}}{{end}}
+
+listen stats <%= @admin_ip %>:1944
+  mode http
+  stats enable
+  stats uri /
