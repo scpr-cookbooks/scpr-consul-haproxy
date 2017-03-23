@@ -24,7 +24,7 @@ defaults
 frontend http-in
   bind *:80
   <% if node.ssl %>
-  bind *:443 ssl crt <%= node.ssl.databag_items.map{|cert_name| "#{node.ssl.path}/#{cert_name}.pem"}.join(" ") %>
+  bind *:443 ssl <%= node.ssl.databag_items.map{|cert_name| "crt #{node.ssl.path}/#{cert_name}.pem"}.join(" ") %>
   <% end %>
   {{range $config.services}}
   acl sv_{{.service}} hdr(host) -i {{.hostname}}{{end}}
