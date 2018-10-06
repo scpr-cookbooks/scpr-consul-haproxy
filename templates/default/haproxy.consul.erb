@@ -26,6 +26,7 @@ frontend http-in
   <% if node.ssl %>
   bind *:443 ssl <%= node.ssl.databag_items.map{|cert_name| "crt #{node.ssl.path}/#{cert_name}.pem"}.join(" ") %>
   <% end %>
+  redirect scheme https if { hdr(Host) -i www.scpr.org } !{ ssl_fc }
   {{range $config.services}}
   acl sv_{{.service}} hdr(host) -i {{.hostname}}{{end}}
   {{range $config.services}}

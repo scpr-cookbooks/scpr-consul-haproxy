@@ -23,19 +23,28 @@ defaults
 {{with $config := key "<%= @config_key %>" | parseJSON}}
 frontend http-in
   bind *:80
+  redirect scheme https if !{ ssl_fc }
   <% if node.ssl %>
   bind *:443 ssl <%= node.ssl.certificates.map{|cert_name| "crt #{node.ssl.path}/#{cert_name}.pem"}.join(" ") %>
   <% end %>
   {{range $config.services}}
   acl sv_{{.service}} hdr(host) -i {{.hostname}}{{end}}
+  acl sv_etherpad_production_web hdr(host) -i etherpad.scprdev.org
   {{range $config.services}}
   use_backend {{.service}} if sv_{{.service}}{{end}}
+  use_backend etherpad_production_web if sv_etherpad_production_web
+
+
 
 {{range $config.services}}
 backend {{.service}}
   balance leastconn{{range service .service}}
   server {{.Node}} {{.Address}}:80{{end}}
 {{end}}{{end}}
+
+backend etherpad_production_web
+balance leastconn
+server rancher-cattle-dev01 10.100.0.165:9001
 
 listen stats <%= @admin_ip %>:1944
   mode http
