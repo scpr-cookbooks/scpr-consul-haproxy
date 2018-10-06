@@ -1,0 +1,21 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.4-stretch-browsers-legacy
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - v1-{{ arch }}-{{ .Branch }}-
+            - v1-{{ arch }}-
+      - run: >
+          bundle check --path vendor/bundle ||
+          bundle install --path vendor/bundle
+      - save_cache:
+          paths:
+            - vendor/bundle
+          key: v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+      - run: bundle exec foodcritic .
+      - run: bundle exec bundle exec cookstyle .
