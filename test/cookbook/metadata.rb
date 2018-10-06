@@ -6,4 +6,4 @@ description      'Installs/Configures scpr-consul-haproxy'
 long_description 'Installs/Configures scpr-consul-haproxy'
 version          '0.0.1'
 
-depends "scpr-consul-haproxy"
+depends 'scpr-consul-haproxy'
