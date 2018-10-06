@@ -7,5 +7,3 @@ Sets up haproxy for various apps/services
 1. `berks install`
 1. `berks upload`
 1. turn around 5 times and pray to whatever deities you'd like
-
-

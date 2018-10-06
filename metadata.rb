@@ -1,9 +1,12 @@
 name             'scpr-consul-haproxy'
 maintainer       'Southern California Public Radio'
 maintainer_email 'erichardson@scpr.org'
-license          'all_rights'
+source_url       'https://github.com/scpr-cookbooks/scpr-consul-haproxy/'
+issues_url       'https://github.com/scpr-cookbooks/scpr-consul-haproxy/issues'
+license          'All rights reserved'
 description      'Installs/Configures scpr-consul-haproxy'
 long_description 'Installs/Configures scpr-consul-haproxy'
+supports         'ubuntu'
 version          '0.5.7'
 
 depends 'apt', '~> 5.1.0'
