@@ -5,8 +5,6 @@ cookbook "consul", "< 1.0"
 
 cookbook 'scpr-consul'
 
-cookbook 'apt'
-
 cookbook 'scpr-consul-haproxy-test', path:"./test/cookbook"
 
 metadata
