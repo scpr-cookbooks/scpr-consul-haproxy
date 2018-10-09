@@ -7,7 +7,7 @@ license          'All rights reserved'
 description      'Installs/Configures scpr-consul-haproxy'
 long_description 'Installs/Configures scpr-consul-haproxy'
 supports         'ubuntu'
-version          '0.5.7'
+version          '0.5.8'
 
 depends 'apt', '~> 5.1.0'
 depends 'ark', '<= 3.0.0'
